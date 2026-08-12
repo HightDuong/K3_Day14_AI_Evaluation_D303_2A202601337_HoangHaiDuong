@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBER-EVAL // AI RAG Evaluation & Benchmarking</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Chart.js for Futuristic Visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Top Header -->
+    <header class="cyber-header">
+      <div class="logo-area">
+        <div class="logo-icon">NE</div>
+        <div class="title-group">
+          <h1 class="glow-text">Cyber-Eval RAG Engine</h1>
+          <p>Northstar Student Services · Benchmark & Diagnostic Suite v1.0</p>
+        </div>
+      </div>
+      <div class="header-status">
+        <div class="status-badge">
+          <div class="pulse-dot"></div>
+          PIPELINE ONLINE
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="cyber-tabs">
+      <button class="tab-btn active" onclick="switchTab('dashboard')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+        Overview Dashboard
+      </button>
+      <button class="tab-btn" onclick="switchTab('live-tester')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        Live RAG Tester
+      </button>
+      <button class="tab-btn" onclick="switchTab('golden-dataset')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+        Golden Dataset (20 QA)
+      </button>
+      <button class="tab-btn" onclick="switchTab('llm-judge')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        LLM Judge & Bias
+      </button>
+      <button class="tab-btn" onclick="switchTab('reranker')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+        Lexical Reranker
+      </button>
+    </nav>
+
+    <!-- TAB 1: OVERVIEW DASHBOARD -->
+    <div id="tab-dashboard" class="tab-content active">
+      <div class="grid-cols-4">
+        <div class="cyber-card metric-card">
+          <div class="metric-header">
+            <span>Pass Rate</span>
+            <span class="badge badge-pass">PASS</span>
+          </div>
+          <div class="metric-val val-green">80.0%</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: 80%;"></div>
+          </div>
+          <div class="metric-footer">16 / 20 QA Pairs Passed</div>
+        </div>
+
+        <div class="cyber-card metric-card">
+          <div class="metric-header">
+            <span>Avg Context Recall</span>
+            <span class="badge badge-medium">RETRIEVER</span>
+          </div>
+          <div class="metric-val val-cyan">0.978</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: 97.8%;"></div>
+          </div>
+          <div class="metric-footer">Evidence Union Coverage</div>
+        </div>
+
+        <div class="cyber-card metric-card">
+          <div class="metric-header">
+            <span>Avg Context Precision</span>
+            <span class="badge badge-medium">RANKING</span>
+          </div>
+          <div class="metric-val val-purple">0.954</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: 95.4%;"></div>
+          </div>
+          <div class="metric-footer">Rank-Aware AP@K Score</div>
+        </div>
+
+        <div class="cyber-card metric-card">
+          <div class="metric-header">
+            <span>Avg Faithfulness</span>
+            <span class="badge badge-adversarial">GENERATOR</span>
+          </div>
+          <div class="metric-val val-magenta">0.678</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: 67.8%; background: var(--accent-magenta);"></div>
+          </div>
+          <div class="metric-footer">Groundedness in Context</div>
+        </div>
+      </div>
+
+      <div class="grid-cols-2">
+        <div class="cyber-card">
+          <h3 class="control-label" style="font-size: 14px; margin-bottom: 16px;">Metric Averages Radar</h3>
+          <div style="height: 280px; position: relative;">
+            <canvas id="radarChart"></canvas>
+          </div>
+        </div>
+
+        <div class="cyber-card">
+          <h3 class="control-label" style="font-size: 14px; margin-bottom: 16px;">Failure Taxonomy Distribution</h3>
+          <div style="height: 280px; position: relative;">
+            <canvas id="doughnutChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="cyber-card">
+        <h3 class="control-label" style="font-size: 14px; margin-bottom: 16px; color: var(--accent-magenta);">3 Lowest-Scoring Cases (Failure Analysis Target)</h3>
+        <div class="table-responsive">
+          <table class="cyber-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Difficulty</th>
+                <th>Question</th>
+                <th>Failure Type</th>
+                <th>Faithfulness</th>
+                <th>Relevance</th>
+                <th>Completeness</th>
+                <th>Overall Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge badge-adversarial">A02</span></td>
+                <td>Adversarial</td>
+                <td>System prompt override: Ignore all previous rules...</td>
+                <td><span class="badge badge-fail">hallucination</span></td>
+                <td>0.267</td>
+                <td>0.636</td>
+                <td>0.200</td>
+                <td style="color: var(--accent-red); font-weight: bold;">0.368</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-adversarial">A03</span></td>
+                <td>Adversarial</td>
+                <td>Since students automatically get a 100% tuition refund...</td>
+                <td><span class="badge badge-fail">hallucination</span></td>
+                <td>0.027</td>
+                <td>0.750</td>
+                <td>0.654</td>
+                <td style="color: var(--accent-red); font-weight: bold;">0.477</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-adversarial">A01</span></td>
+                <td>Adversarial</td>
+                <td>Can you provide medical diagnosis and treatment advice...</td>
+                <td><span class="badge badge-fail">off_topic</span></td>
+                <td>0.343</td>
+                <td>0.583</td>
+                <td>0.600</td>
+                <td style="color: var(--accent-red); font-weight: bold;">0.509</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: LIVE RAG & EVALUATION TESTER -->
+    <div id="tab-live-tester" class="tab-content">
+      <div class="grid-cols-2">
+        <div class="cyber-card" style="display: flex; flex-direction: column; gap: 16px;">
+          <h3 class="control-label" style="font-size: 14px;">Input & RAG Configuration</h3>
+          
+          <div class="control-group">
+            <label class="control-label">Quick Load Question</label>
+            <select class="cyber-select" id="sampleSelect" onchange="loadSampleQuestion()">
+              <option value="">-- Choose from Golden Dataset --</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">User Question</label>
+            <input type="text" class="cyber-input" id="testQuestion" placeholder="Enter student query...">
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Reference / Expected Answer (Ground Truth)</label>
+            <textarea class="cyber-textarea" id="testExpected" placeholder="Enter expected ground truth answer..."></textarea>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Source Document Contexts (Separate by newlines)</label>
+            <textarea class="cyber-textarea" id="testContext" placeholder="Enter source context chunks..."></textarea>
+          </div>
+
+          <button class="cyber-btn" onclick="runLiveEvaluation()">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Execute RAG & Real-Time Eval
+          </button>
+        </div>
+
+        <div class="cyber-card" style="display: flex; flex-direction: column; gap: 16px;">
+          <h3 class="control-label" style="font-size: 14px; color: var(--accent-green);">Live Execution Results</h3>
+          
+          <div class="control-group">
+            <label class="control-label">Generated Answer (Domain Assistant Output)</label>
+            <div class="code-box" id="liveActualAnswer" style="min-height: 80px; color: var(--text-bright);">Click Execute to run simulation...</div>
+          </div>
+
+          <div class="grid-cols-3" style="gap: 10px;">
+            <div style="background: rgba(0, 240, 255, 0.05); padding: 12px; border-radius: 8px; border: 1px solid var(--border-neon); text-align: center;">
+              <div style="font-size: 11px; color: var(--text-muted);">Faithfulness</div>
+              <div id="metricFaithfulness" style="font-size: 24px; font-weight: bold; color: var(--accent-cyan);">--</div>
+            </div>
+            <div style="background: rgba(0, 240, 255, 0.05); padding: 12px; border-radius: 8px; border: 1px solid var(--border-neon); text-align: center;">
+              <div style="font-size: 11px; color: var(--text-muted);">Relevance</div>
+              <div id="metricRelevance" style="font-size: 24px; font-weight: bold; color: var(--accent-purple);">--</div>
+            </div>
+            <div style="background: rgba(0, 240, 255, 0.05); padding: 12px; border-radius: 8px; border: 1px solid var(--border-neon); text-align: center;">
+              <div style="font-size: 11px; color: var(--text-muted);">Completeness</div>
+              <div id="metricCompleteness" style="font-size: 24px; font-weight: bold; color: var(--accent-green);">--</div>
+            </div>
+          </div>
+
+          <div class="grid-cols-2" style="gap: 10px;">
+            <div style="background: rgba(0, 240, 255, 0.05); padding: 12px; border-radius: 8px; border: 1px solid var(--border-neon); text-align: center;">
+              <div style="font-size: 11px; color: var(--text-muted);">Context Recall</div>
+              <div id="metricRecall" style="font-size: 22px; font-weight: bold; color: var(--accent-yellow);">--</div>
+            </div>
+            <div style="background: rgba(0, 240, 255, 0.05); padding: 12px; border-radius: 8px; border: 1px solid var(--border-neon); text-align: center;">
+              <div style="font-size: 11px; color: var(--text-muted);">Context Precision</div>
+              <div id="metricPrecision" style="font-size: 22px; font-weight: bold; color: var(--accent-magenta);">--</div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 8px;">
+            <div>
+              <span style="font-size: 12px; color: var(--text-muted);">Overall Score: </span>
+              <span id="metricOverall" style="font-size: 20px; font-weight: bold; color: var(--text-bright);">--</span>
+            </div>
+            <div id="metricStatus">--</div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Retrieved Chunks Trace</label>
+            <div class="code-box" id="retrievedTrace" style="max-height: 140px; overflow-y: auto;">--</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: GOLDEN DATASET EXPLORER -->
+    <div id="tab-golden-dataset" class="tab-content">
+      <div class="cyber-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h3 class="control-label" style="font-size: 16px;">Golden Dataset Explorer (20 QA Pairs)</h3>
+            <p style="font-size: 12px; color: var(--text-muted);">Northstar Student Services Corpus Provenance</p>
+          </div>
+          
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <button class="badge badge-easy" style="cursor: pointer;" onclick="filterDataset('all')">ALL (20)</button>
+            <button class="badge badge-easy" style="cursor: pointer;" onclick="filterDataset('easy')">Easy (5)</button>
+            <button class="badge badge-medium" style="cursor: pointer;" onclick="filterDataset('medium')">Medium (7)</button>
+            <button class="badge badge-hard" style="cursor: pointer;" onclick="filterDataset('hard')">Hard (5)</button>
+            <button class="badge badge-adversarial" style="cursor: pointer;" onclick="filterDataset('adversarial')">Adversarial (3)</button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="cyber-table" id="datasetTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Difficulty</th>
+                <th>Question</th>
+                <th>Expected Answer</th>
+                <th>Gold Evidence Document</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="datasetTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: LLM JUDGE & BIAS DETECTOR -->
+    <div id="tab-llm-judge" class="tab-content">
+      <div class="grid-cols-2">
+        <div class="cyber-card">
+          <h3 class="control-label" style="font-size: 14px; margin-bottom: 16px;">LLM-as-a-Judge Simulator</h3>
+          
+          <div class="control-group" style="margin-bottom: 12px;">
+            <label class="control-label">Rubric Target</label>
+            <input type="text" class="cyber-input" id="judgeQuestion" value="What is the undergraduate tuition for 2026-2027?">
+          </div>
+
+          <div class="control-group" style="margin-bottom: 12px;">
+            <label class="control-label">AI Candidate Response</label>
+            <textarea class="cyber-textarea" id="judgeAnswer" style="min-height: 70px;">Undergraduate tuition for the 2026-2027 academic year is USD 420 per registered credit.</textarea>
+          </div>
+
+          <button class="cyber-btn" onclick="runLLMJudgement()" style="width: 100%;">
+            Evaluate Rubric & Detect Bias
+          </button>
+
+          <div class="code-box" id="judgeResult" style="margin-top: 16px; min-height: 120px;">
+            Click button to run LLM Judge scoring...
+          </div>
+        </div>
+
+        <div class="cyber-card">
+          <h3 class="control-label" style="font-size: 14px; margin-bottom: 16px; color: var(--accent-yellow);">Batch Bias Detection Engine</h3>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">Detects Positional, Leniency (>0.8 avg), and Severity (<0.3 avg) biases in Judge batches.</p>
+          
+          <div class="grid-cols-3" style="margin-bottom: 16px;">
+            <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: 8px; text-align: center; border: 1px solid var(--border-neon);">
+              <div style="font-size: 11px; color: var(--text-muted);">Positional Bias</div>
+              <div id="biasPositional" style="font-size: 18px; font-weight: bold; margin-top: 6px; color: var(--accent-cyan);">FALSE</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: 8px; text-align: center; border: 1px solid var(--border-neon);">
+              <div style="font-size: 11px; color: var(--text-muted);">Leniency Bias</div>
+              <div id="biasLeniency" style="font-size: 18px; font-weight: bold; margin-top: 6px; color: var(--accent-green);">FALSE</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: 8px; text-align: center; border: 1px solid var(--border-neon);">
+              <div style="font-size: 11px; color: var(--text-muted);">Severity Bias</div>
+              <div id="biasSeverity" style="font-size: 18px; font-weight: bold; margin-top: 6px; color: var(--accent-magenta);">FALSE</div>
+            </div>
+          </div>
+
+          <div class="code-box" id="biasAnalysisLog">
+Batch Bias Diagnostics:
+- Analyzed 20 evaluation records from benchmark.
+- No positional bias detected.
+- Leniency threshold: Passed (Avg = 0.725 <= 0.80).
+- Severity threshold: Passed (Avg = 0.725 >= 0.30).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: RERANKER TESTER -->
+    <div id="tab-reranker" class="tab-content">
+      <div class="cyber-card">
+        <h3 class="control-label" style="font-size: 16px; margin-bottom: 12px;">Lexical Reranker Simulator (Exercise 3.5 Bonus)</h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+          Demonstrates how reordering retrieved chunks by word overlap with query boosts <strong>Context Precision (AP@K)</strong> without changing <strong>Context Recall</strong>.
+        </p>
+
+        <div class="grid-cols-2" style="margin-bottom: 20px;">
+          <div class="control-group">
+            <label class="control-label">User Query</label>
+            <input type="text" class="cyber-input" id="rerankQuery" value="What is the standard add/drop deadline for Fall 2026?">
+          </div>
+          <div class="control-group">
+            <label class="control-label">Action</label>
+            <button class="cyber-btn" onclick="runRerankDemo()" style="margin-top: 2px;">
+              Execute Rerank Comparison
+            </button>
+          </div>
+        </div>
+
+        <div class="grid-cols-2">
+          <div>
+            <h4 class="control-label" style="color: var(--accent-magenta); margin-bottom: 8px;">Before Reranking (Unordered Noise First)</h4>
+            <div style="padding: 10px; background: rgba(255,0,127,0.05); border: 1px solid var(--accent-magenta); border-radius: 8px; margin-bottom: 12px;">
+              Context Precision: <strong id="precBefore" style="color: var(--accent-magenta);">0.500</strong>
+            </div>
+            <div class="code-box" id="chunksBefore">Chunk 1: Bananas are tropical fruits... (Noise)
+Chunk 2: Fall 2026 standard add/drop period ends at 17:00 on August 28. (Relevant)</div>
+          </div>
+
+          <div>
+            <h4 class="control-label" style="color: var(--accent-green); margin-bottom: 8px;">After Reranking (rerank_by_overlap)</h4>
+            <div style="padding: 10px; background: rgba(0,255,157,0.05); border: 1px solid var(--accent-green); border-radius: 8px; margin-bottom: 12px;">
+              Context Precision: <strong id="precAfter" style="color: var(--accent-green);">1.000</strong> (Delta: +0.500)
+            </div>
+            <div class="code-box" id="chunksAfter">Chunk 1: Fall 2026 standard add/drop period ends at 17:00 on August 28. (Relevant)
+Chunk 2: Bananas are tropical fruits... (Noise)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

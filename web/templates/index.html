@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Northstar Student Services — RAG Test Bench</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="page">
+
+    <header class="header">
+      <div class="logo neu neu-raised">
+        <span class="logo-mark">NS</span>
+      </div>
+      <div class="header-text">
+        <h1>Northstar Student Services</h1>
+        <p class="subtitle">RAG Test Bench · Neumorphism UI</p>
+      </div>
+      <div id="state-pill" class="pill neu neu-raised">loading…</div>
+    </header>
+
+    <main class="layout">
+
+      <section class="chat-card neu neu-raised" id="chat" aria-live="polite">
+        <div class="chat-inner">
+          <div id="messages" class="messages"></div>
+          <div id="typing" class="typing hidden">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="typing-label">retrieving &amp; generating…</span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side">
+        <div class="quick-card neu neu-raised">
+          <h2>Try a question</h2>
+          <p class="hint">Sample cases from the golden dataset.</p>
+          <div id="quick-chips" class="chips"></div>
+        </div>
+
+        <div class="info-card neu neu-raised">
+          <h2>System info</h2>
+          <dl class="info">
+            <div><dt>Model</dt><dd id="info-model">—</dd></div>
+            <div><dt>Corpus</dt><dd id="info-corpus">—</dd></div>
+            <div><dt>Chunks indexed</dt><dd id="info-chunks">—</dd></div>
+            <div><dt>Top-k retrieval</dt><dd id="info-topk">—</dd></div>
+            <div><dt>Latency</dt><dd id="info-latency">—</dd></div>
+          </dl>
+        </div>
+      </aside>
+
+    </main>
+
+    <footer class="composer neu neu-raised">
+      <textarea id="question" rows="2"
+        placeholder="Ask about tuition, deadlines, leave, grades, appeals… (Enter to send, Shift+Enter for newline)"></textarea>
+      <button id="send" class="send-btn neu neu-raised" type="button" aria-label="Send question">
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+          <path d="M2 21l21-9L2 3v7l15 2-15 2z" fill="currentColor"/>
+        </svg>
+      </button>
+    </footer>
+
+    <div id="toast" class="toast hidden"></div>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
